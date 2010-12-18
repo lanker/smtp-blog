@@ -244,9 +244,13 @@ sub handle_message {
     }
 
     ####### reverse geocoding
-    my $geoxml = get('http://maps.google.com/maps/geo?q=' . $lat . ',' . $lon . '&output=xml');
+    my $lat_f = $lat;
+    my $lon_f = $lon;
+    $lat_f =~ s/(.*)\s+.*/$1/;
+    $lon_f =~ s/(.*)\s+.*/$1/;
+    my $geoxml = get('http://maps.googleapis.com/maps/api/geocode/xml?latlng=' . $lat_f . ',' . $lon_f . '&sensor=false');
     my $xml = XMLin($geoxml);
-    my $position_name = $xml->{Response}{Placemark}->{p1}->{address};
+    my $position_name = $xml->{result}[0]->{formatted_address};
 
     if ($charset =~ m/8859-1/) {
         logga(1, "converting text to utf8");
