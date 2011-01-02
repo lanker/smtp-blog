@@ -113,11 +113,12 @@ sub handle_message {
         from_to($subject, "iso-8859-1", "utf8");
     }
 
-    my $tex = '';
     my $filename = '';
     my $alt = '';
     my $acc = '';
     my $image_date = null;
+    undef $lat;
+    undef $lon;
 
     logga(1, "is_multipart: " . $entity->is_multipart);
     if ($entity->is_multipart) {
